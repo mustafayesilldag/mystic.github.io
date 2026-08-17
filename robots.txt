@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mustafayesilldag.github.io/sitemap.xml
+Sitemap: https://mustafayesilldag.github.io/mystic.github.io/sitemap.xml
