@@ -1292,12 +1292,6 @@ body[data-theme="galaxy"] #brand-btn-forward .brand-icon-universe {
   transform: translateX(4px);
 }
 
-.project-link-disabled {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-style: italic;
-}
-
 .project-more-note {
   display: flex;
   flex-direction: column;
