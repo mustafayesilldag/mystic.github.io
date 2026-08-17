@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mustafayesilldag.github.io/sitemap.xml

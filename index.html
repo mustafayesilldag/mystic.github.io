@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title id="page-title">MYSTIC — Mustafa Yeşildağ | Full-Stack Web Geliştirici</title>
+  <meta id="meta-description" name="description" content="MYSTIC — Mustafa (MISTIK) tarafından kurulan, sinematik web deneyimleri ve sağlam sistemler üreten full-stack geliştirme markası. Özel panel, CRM ve satış sistemleri." />
+  <meta name="author" content="Mustafa Yeşildağ" />
+  <meta name="theme-color" content="#05050a" />
+
+  <meta id="og-title" property="og:title" content="MYSTIC — Sinematik web deneyimleri ve sağlam sistemler" />
+  <meta id="og-description" property="og:description" content="Küçük işletmeler ve markalar için, kalıp tasarımların ötesinde özel arayüzler ve satış sistemleri." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mustafayesilldag.github.io/" />
+  <meta property="og:image" content="https://mustafayesilldag.github.io/images/earth-mountain.webp" />
+  <meta property="og:image:width" content="1472" />
+  <meta property="og:image:height" content="720" />
+  <meta property="og:locale" content="tr_TR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MYSTIC — Sinematik web deneyimleri ve sağlam sistemler" />
+  <meta name="twitter:description" content="Küçük işletmeler ve markalar için, kalıp tasarımların ötesinde özel arayüzler ve satış sistemleri." />
+  <meta name="twitter:image" content="https://mustafayesilldag.github.io/images/earth-mountain.webp" />
+
+  <link rel="canonical" href="https://mustafayesilldag.github.io/" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2305050a'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%239333ea' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mustafa Yeşildağ",
+    "alternateName": "MYSTIC",
+    "jobTitle": "Full-Stack Web Geliştirici",
+    "url": "https://mustafayesilldag.github.io/",
+    "email": "mailto:mustafayesilldag@gmail.com",
+    "sameAs": [
+      "https://github.com/mustafayesilldag",
+      "https://instagram.com/mustfysldg"
+    ],
+    "description": "Küçük işletmeler ve markalar için özel web sistemleri kuran full-stack geliştirici."
+  }
+  </script>
+</head>
+<body data-theme="earth">
+
+  <div id="bg-canvas-container"></div>
+
+  <div id="earth-photo-layer" aria-hidden="true">
+    <img id="earth-photo-main" src="images/earth-mountain.webp" alt="" />
+  </div>
+
+  <div class="bg-overlay"></div>
+
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <div class="warp-overlay" id="warp-overlay" aria-hidden="true"></div>
+
+  <header class="site-header">
+
+    <div class="brand-icon-group">
+      <button class="brand-icon-btn" id="brand-btn-back" type="button" aria-label="Dünya moduna dön">
+        <span class="brand-icon-inner">
+          <svg class="brand-icon brand-icon-earth" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="16" class="brand-icon-globe" />
+            <path d="M4 20 Q20 12 36 20" class="brand-icon-facet" />
+            <path d="M4 20 Q20 28 36 20" class="brand-icon-facet" />
+            <path d="M20 4 Q28 20 20 36" class="brand-icon-facet" />
+            <circle cx="20" cy="20" r="3.2" class="brand-icon-core" />
+          </svg>
+          <svg class="brand-icon brand-icon-galaxy" viewBox="0 0 40 40" aria-hidden="true">
+            <polygon points="20,3 34,11.5 34,28.5 20,37 6,28.5 6,11.5" class="brand-icon-hex-outer" />
+            <polygon points="20,10 28,14.5 28,25.5 20,30 12,25.5 12,14.5" class="brand-icon-hex-inner" />
+            <line x1="20" y1="20" x2="20" y2="3" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="34" y2="11.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="34" y2="28.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="20" y2="37" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="6" y2="28.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="6" y2="11.5" class="brand-icon-facet" />
+            <circle cx="20" cy="20" r="5" class="brand-icon-core" />
+          </svg>
+        </span>
+      </button>
+      <button class="brand-icon-btn" id="brand-btn-forward" type="button" aria-label="Galaksi moduna geç">
+        <span class="brand-icon-inner">
+          <svg class="brand-icon brand-icon-galaxy" viewBox="0 0 40 40" aria-hidden="true">
+            <polygon points="20,3 34,11.5 34,28.5 20,37 6,28.5 6,11.5" class="brand-icon-hex-outer" />
+            <polygon points="20,10 28,14.5 28,25.5 20,30 12,25.5 12,14.5" class="brand-icon-hex-inner" />
+            <line x1="20" y1="20" x2="20" y2="3" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="34" y2="11.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="34" y2="28.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="20" y2="37" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="6" y2="28.5" class="brand-icon-facet" />
+            <line x1="20" y1="20" x2="6" y2="11.5" class="brand-icon-facet" />
+            <circle cx="20" cy="20" r="5" class="brand-icon-core" />
+          </svg>
+          <svg class="brand-icon brand-icon-universe" viewBox="0 0 40 40" aria-hidden="true">
+            <ellipse cx="20" cy="20" rx="17" ry="7" class="brand-icon-orbit" transform="rotate(0 20 20)" />
+            <ellipse cx="20" cy="20" rx="17" ry="7" class="brand-icon-orbit" transform="rotate(60 20 20)" />
+            <ellipse cx="20" cy="20" rx="17" ry="7" class="brand-icon-orbit" transform="rotate(120 20 20)" />
+            <circle cx="20" cy="20" r="4.5" class="brand-icon-core" />
+          </svg>
+        </span>
+      </button>
+
+      <div class="brand-hint" id="brand-hint" role="status" aria-live="polite">
+        <span data-i18n="brandHint.text">Farklı bir evren dene</span>
+        <span class="brand-hint-arrow" aria-hidden="true">→</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <nav class="nav" id="nav-menu" aria-label="Ana gezinme" data-i18n-aria="nav.ariaLabel">
+        <a href="#hakkimda" data-nav-link data-i18n="nav.about">Hakkımda</a>
+        <a href="#yetenekler" data-nav-link data-i18n="nav.skills">Yetenekler</a>
+        <a href="#projeler" data-nav-link data-i18n="nav.projects">Projeler</a>
+        <a href="#iletisim" data-nav-link data-i18n="nav.contact">İletişim</a>
+      </nav>
+
+      <div class="lang-switcher" id="lang-switcher">
+        <button class="lang-toggle" id="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-menu" aria-label="Dil seçin" data-i18n-aria="lang.selectLabel">
+          <span class="lang-flag" id="lang-flag-current" aria-hidden="true">🇹🇷</span>
+          <span class="lang-code" id="lang-code-current">TR</span>
+          <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <ul class="lang-menu" id="lang-menu" role="listbox" aria-label="Dil listesi">
+          <li role="option" data-lang="tr"><span class="lang-flag" aria-hidden="true">🇹🇷</span> Türkçe</li>
+          <li role="option" data-lang="en"><span class="lang-flag" aria-hidden="true">🇬🇧</span> English</li>
+          <li role="option" data-lang="it"><span class="lang-flag" aria-hidden="true">🇮🇹</span> Italiano</li>
+          <li role="option" data-lang="fr"><span class="lang-flag" aria-hidden="true">🇫🇷</span> Français</li>
+          <li role="option" data-lang="de"><span class="lang-flag" aria-hidden="true">🇩🇪</span> Deutsch</li>
+        </ul>
+      </div>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menüyü aç/kapat" data-i18n-aria="nav.toggleLabel">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Başa dön" data-i18n-aria="backToTop.label">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <main>
+
+    <section id="hero" class="hero">
+      <div class="hero-content reveal">
+
+        <svg class="hero-sigil" viewBox="0 0 200 200" aria-hidden="true">
+
+          <circle cx="100" cy="100" r="96" class="sigil-ring sigil-ring-outermost" />
+          <circle cx="100" cy="100" r="92" class="sigil-ring sigil-ring-outer" />
+          <g class="sigil-ticks">
+            <path d="M100 4 L100 12" /><path d="M152 17.4 L148 24.3" /><path d="M187.6 52 L180.7 56" />
+            <path d="M196 100 L188 100" /><path d="M187.6 148 L180.7 144" /><path d="M152 182.6 L148 175.7" />
+            <path d="M100 196 L100 188" /><path d="M48 182.6 L52 175.7" /><path d="M12.4 148 L19.3 144" />
+            <path d="M4 100 L12 100" /><path d="M12.4 52 L19.3 56" /><path d="M48 17.4 L52 24.3" />
+          </g>
+          <circle cx="100" cy="100" r="78" class="sigil-ring sigil-ring-mid" />
+          <g class="sigil-runes">
+            <circle cx="100" cy="22" r="2.2" />
+            <circle cx="153.6" cy="46.4" r="2.2" />
+            <circle cx="178" cy="100" r="2.2" />
+            <circle cx="153.6" cy="153.6" r="2.2" />
+            <circle cx="100" cy="178" r="2.2" />
+            <circle cx="46.4" cy="153.6" r="2.2" />
+            <circle cx="22" cy="100" r="2.2" />
+            <circle cx="46.4" cy="46.4" r="2.2" />
+          </g>
+          <circle cx="100" cy="100" r="58" class="sigil-ring sigil-ring-inner" />
+          <path d="M100 18 L100 182 M18 100 L182 100" class="sigil-axis" />
+          <path d="M100 42 L158 100 L100 158 L42 100 Z" class="sigil-diamond" />
+          <path d="M100 58 L100 142 M58 100 L142 100" class="sigil-axis sigil-axis-inner" />
+          <circle cx="100" cy="100" r="34" class="sigil-ring sigil-ring-core" />
+          <circle cx="100" cy="18" r="3" class="sigil-node" />
+          <circle cx="100" cy="182" r="3" class="sigil-node" />
+          <circle cx="18" cy="100" r="3" class="sigil-node" />
+          <circle cx="182" cy="100" r="3" class="sigil-node" />
+        </svg>
+
+        <h1 class="hero-title">MYSTIC</h1>
+        <p class="hero-tagline" data-i18n="hero.tagline">Uçtan uca yazılım sistemleri, yalnızca sana özel kurulur.</p>
+        <div class="hero-buttons">
+          <a href="#projeler" class="btn btn-primary" data-i18n="hero.btnProjects">Projelerim</a>
+          <a href="#iletisim" class="btn btn-secondary" data-i18n="hero.btnContact">İletişim</a>
+        </div>
+      </div>
+      <div class="scroll-hint" data-i18n="hero.scrollHint">Aşağı kaydır</div>
+    </section>
+
+    <section id="hakkimda" class="section">
+      <div class="section-inner reveal">
+        <div class="section-head-centered">
+          <h2 class="section-title" data-i18n="about.title">Hakkımda</h2>
+          <p class="section-subtitle" data-i18n="about.subtitle">Şablon değil, projenin her katmanına özel kurulan sistemler.</p>
+        </div>
+        <div class="about-grid">
+
+          <div class="about-text-col">
+            <p class="about-text" data-i18n-html="about.text1">
+              Ben <strong>MISTIK</strong>. 21 yaşındayım ve yazılıma olan merakım çocukluğuma kadar
+              uzanıyor. Bu merakı son 1 yılda TrackDesk gibi gerçek, üretimde çalışan sistemlere
+              dönüştürdüm; karmaşık iş süreçlerini sezgisel, sinematik dijital deneyimlere çeviren
+              bir full-stack geliştirici ve sistem mimarıyım. Bir projenin fikrinden son kullanıcı
+              ekranına kadar her katmanını tek başıma kurarım.
+            </p>
+            <p class="about-text" data-i18n="about.text2">
+              Sahada çalışan satış ekipleri için gerçek zamanlı takip panelleri, kapsamlı bir
+              e-ticaret altyapısı, özel bütçe yönetimi ve ekran paylaşım sistemleri geliştirdim.
+              Hiçbiri hazır şablon değildi; her biri, o projenin gerçek ihtiyacına göre sıfırdan
+              inşa edildi. Kendimi geliştirmeye ve bu birikimi her projeyle büyütmeye devam
+              ediyorum.
+            </p>
+
+            <div class="vision-box">
+              <span class="vision-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.4.3.6.8.6 1.3v.5a1 1 0 001 1h4.8a1 1 0 001-1v-.5c0-.5.2-1 .6-1.3A7 7 0 0012 2z"/></svg>
+              </span>
+              <div>
+                <span class="vision-label" data-i18n="vision.label">Vizyonum</span>
+                <p class="vision-text" data-i18n="vision.text1">Her müşteriye özel kurulan sistemleri, en iyi şekilde tasarlamak ve hayata geçirmek.</p>
+                <p class="vision-text" data-i18n="vision.text2">Müşteri memnuniyetini seçenek değil, işin temeli saymak.</p>
+                <p class="vision-text" data-i18n="vision.text3">Hızlı, güvenilir ve arkasında durulan bir iş teslim etmek.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-photo-col">
+            <div class="about-visual-frame">
+              <span class="about-visual-glowbar" aria-hidden="true"></span>
+              <img class="about-photo-img" src="images/mustafa.webp" alt="Mustafa Yeşildağ (MYSTIC)" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="statement-band">
+      <div class="statement-inner">
+        <span class="statement-rule" aria-hidden="true"></span>
+        <p class="statement-text" data-i18n-html="statement.text">
+          Bir projeyi sıfırdan mı kuruyoruz, yoksa yarım kalmış ya da hayal kırıklığına
+          uğratmış birini mi yeniden inşa ediyoruz — fark etmez. Tek hedef var:
+          <strong>ödediğin ücretin karşılığını gerçekten alman.</strong>
+        </p>
+      </div>
+    </section>
+
+    <section id="yetenekler" class="section">
+      <div class="section-inner reveal">
+        <div class="section-head-centered">
+          <h2 class="section-title" data-i18n="skills.title">Yetenekler</h2>
+          <p class="section-subtitle" data-i18n="skills.subtitle">Modern teknolojilerle güçlendirilmiş uçtan uca çözümler.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg>
+            </div>
+            <h3 data-i18n="skills.frontend.title">Frontend</h3>
+            <p data-i18n="skills.frontend.desc">HTML5, CSS3, JavaScript ES6+ ve React ile piksel hassasiyetinde, hızlı ve sezgisel arayüzler kurarım: animasyon, micro-interaction ve responsive tasarım dahil.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+            </div>
+            <h3 data-i18n="skills.backend.title">Backend</h3>
+            <p data-i18n="skills.backend.desc">PHP 8, MySQL ve PDO ile güvenli oturum yönetimi kurarım. REST API entegrasyonları, ödeme akışları ve çok kullanıcılı sistem altyapısı bu işin doğal parçası — TrackDesk'te, 4 milyon TL'yi aşan kazancı gerçek zamanlı takip eden bir sistemle bunu kanıtladım.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </div>
+            <h3 data-i18n="skills.systems.title">Sistemler</h3>
+            <p data-i18n="skills.systems.desc">E-ticaret platformları, CRM ve satış panelleri, bütçe takip uygulamaları, WebRTC gerçek zamanlı iletişim, AI entegrasyonları ve PWA.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg>
+            </div>
+            <h3 data-i18n="skills.approach.title">Yaklaşım</h3>
+            <p data-i18n="skills.approach.desc">Her proje sıfırdan, o projenin gerçek ihtiyacına özel kurulur. Hazır şablon yok; sadece senin işine biçilmiş, ölçeklenebilir bir sistem var.</p>
+          </div>
+        </div>
+
+        <ul class="tech-stack-row" aria-label="Kullanılan teknolojiler">
+          <li>HTML5</li>
+          <li>CSS3</li>
+          <li>JavaScript</li>
+          <li>React</li>
+          <li>PHP</li>
+          <li>MySQL</li>
+          <li>REST API</li>
+          <li>WebRTC</li>
+          <li>Three.js</li>
+          <li>PWA</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projeler" class="section">
+      <div class="section-inner reveal">
+        <div class="section-head-centered">
+          <h2 class="section-title" data-i18n="projects.title">Öne Çıkan Projeler</h2>
+        </div>
+
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-visual project-visual-trackdesk">
+              <span class="project-badge badge-live" data-i18n="projects.trackdesk.badge">Canlı</span>
+
+              <svg class="dashboard-illustration" viewBox="0 0 300 170" aria-hidden="true">
+                <rect x="0" y="0" width="300" height="170" rx="10" class="dash-frame" />
+                <rect x="16" y="16" width="130" height="60" rx="4" class="dash-panel" />
+                <polyline points="22,64 40,50 58,58 76,34 94,44 112,28 140,38" class="dash-line" />
+                <rect x="156" y="16" width="128" height="60" rx="4" class="dash-panel" />
+                <rect x="166" y="46" width="10" height="22" class="dash-bar" />
+                <rect x="182" y="36" width="10" height="32" class="dash-bar" />
+                <rect x="198" y="52" width="10" height="16" class="dash-bar" />
+                <rect x="214" y="28" width="10" height="40" class="dash-bar" />
+                <rect x="230" y="42" width="10" height="26" class="dash-bar" />
+                <rect x="246" y="32" width="10" height="36" class="dash-bar" />
+                <rect x="16" y="88" width="268" height="66" rx="4" class="dash-panel" />
+                <polyline points="24,130 44,110 64,122 84,96 104,114 124,84 144,104 164,92 184,118 204,100 224,116 244,90 264,108 276,98" class="dash-line dash-line-wide" />
+              </svg>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">TrackDesk</h3>
+              <p class="project-desc" data-i18n="projects.trackdesk.desc">
+                Sahada satış yapan işletmeler için baştan sona geliştirdiğim bir web paneli —
+                müşteri bakiyesi, sipariş ve tahsilat takibini tek ekranda topluyor. Şu an
+                gerçek bir işletmede kullanılıyor: 4 milyon TL'yi aşan kazancı, 1.000'den fazla
+                işlemle gerçek zamanlı takip ediyor.
+              </p>
+              <div class="project-tags">
+                <span>PHP/MySQL</span>
+                <span>Vanilla JS</span>
+                <span>PWA</span>
+              </div>
+              <span class="project-link project-link-disabled">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                <span data-i18n="projects.trackdesk.linkDisabled">Domain bekleniyor</span>
+              </span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual project-visual-sinava">
+              <span class="project-badge badge-live" data-i18n="projects.sinava.badge">Canlı</span>
+
+              <svg class="dashboard-illustration" viewBox="0 0 300 170" aria-hidden="true">
+                <rect x="0" y="0" width="300" height="170" rx="10" class="dash-frame" />
+                <rect x="16" y="16" width="130" height="60" rx="4" class="dash-panel" />
+                <circle cx="81" cy="40" r="15" class="dash-panel" />
+                <polygon points="76,32 76,48 90,40" class="dash-line" />
+                <rect x="24" y="64" width="114" height="4" rx="2" class="dash-panel" />
+                <rect x="24" y="64" width="76" height="4" rx="2" class="dash-line" />
+                <rect x="156" y="16" width="128" height="60" rx="4" class="dash-panel" />
+                <rect x="166" y="52" width="10" height="14" class="dash-bar" />
+                <rect x="182" y="42" width="10" height="24" class="dash-bar" />
+                <rect x="198" y="34" width="10" height="32" class="dash-bar" />
+                <rect x="214" y="46" width="10" height="20" class="dash-bar" />
+                <rect x="230" y="38" width="10" height="28" class="dash-bar" />
+                <rect x="246" y="44" width="10" height="22" class="dash-bar" />
+                <rect x="16" y="88" width="268" height="66" rx="4" class="dash-panel" />
+                <rect x="28" y="102" width="58" height="16" rx="8" class="dash-bar" />
+                <rect x="96" y="102" width="58" height="16" rx="8" class="dash-bar" />
+                <rect x="164" y="102" width="58" height="16" rx="8" class="dash-bar" />
+                <rect x="232" y="102" width="40" height="16" rx="8" class="dash-bar" />
+                <rect x="28" y="128" width="78" height="16" rx="8" class="dash-bar" />
+                <rect x="116" y="128" width="58" height="16" rx="8" class="dash-bar" />
+                <rect x="184" y="128" width="88" height="16" rx="8" class="dash-bar" />
+              </svg>
+            </div>
+            <div class="project-body">
+              <h3 class="project-title">Sınava Bir Gün Kala</h3>
+              <p class="project-desc" data-i18n="projects.sinava.desc">
+                Bir müşterim için baştan sona geliştirip teslim ettiğim, LGS/YKS hazırlığa
+                odaklı birebir online özel ders platformu. Öğretmen pazaryeri, canlı video
+                dersler, motivasyon ve sınav kaygısı koçluğuyla uçtan uca bir eğitim deneyimi
+                sunuyor — eğitime yeni adım atmış olmasına rağmen şimdiden 6'dan fazla öğretmen,
+                3 koç, 50'yi aşkın öğrenci ve 500 bin TL'yi aşan kazançla büyüyor.
+              </p>
+              <div class="project-tags">
+                <span>React</span>
+                <span data-i18n="projects.sinava.tagVideo">Video Ders</span>
+                <span data-i18n="projects.sinava.tagMarketplace">Öğretmen Pazaryeri</span>
+              </div>
+              <a class="project-link" href="https://sinavabirgunkala.com" target="_blank" rel="noopener">
+                <span data-i18n="projects.sinava.linkText">Siteyi Ziyaret Et</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <div class="project-more-note">
+            <div class="skill-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <div>
+              <h3 data-i18n="projects.moreComing.title">Daha fazlası hazırlanıyor</h3>
+              <p data-i18n="projects.moreComing.desc">Yeni projeler düzenli olarak eklenir — bu vitrin büyümeye devam edecek.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="iletisim" class="section">
+      <div class="section-inner reveal">
+        <div class="section-head-centered">
+          <h2 class="section-title" data-i18n="contact.title">İletişime Geçin</h2>
+          <p class="section-subtitle" data-i18n="contact.subtitle">
+            Bir projeniz mi var, yoksa sadece merhaba mı demek istiyorsunuz?
+            Dijital dünyayı birlikte şekillendirebiliriz.
+          </p>
+        </div>
+        <div class="contact-grid">
+          <a href="https://wa.me/905367701150" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </span>
+            <span class="contact-label">WhatsApp</span>
+            <span class="contact-value">+90 536 770 11 50</span>
+          </a>
+          <a href="mailto:mustafayesilldag@gmail.com" class="contact-card">
+            <span class="contact-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+            </span>
+            <span class="contact-label" data-i18n="contact.emailLabel">E-posta</span>
+            <span class="contact-value">mustafayesilldag@gmail.com</span>
+          </a>
+          <a href="https://github.com/mustafayesilldag" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.67 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 015.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.4-2.69 5.38-5.25 5.66.41.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .31.21.66.79.55A11.51 11.51 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            </span>
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">github.com/mustafayesilldag</span>
+          </a>
+          <a href="https://instagram.com/mustfysldg" target="_blank" rel="noopener" class="contact-card">
+            <span class="contact-icon-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.42.56.21.96.47 1.38.89.42.42.68.82.89 1.38.17.43.37 1.06.42 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.21.56-.47.96-.89 1.38-.42.42-.82.68-1.38.89-.43.17-1.06.37-2.23.42-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.21-.96-.47-1.38-.89-.42-.42-.68-.82-.89-1.38-.17-.43-.37-1.06-.42-2.23C2.18 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.42-2.23.21-.56.47-.96.89-1.38.42-.42.82-.68 1.38-.89.43-.17 1.06-.37 2.23-.42C8.42 2.18 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13-.67-.66-1.34-1.07-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zM12 16a4 4 0 114-4 4 4 0 01-4 4zm6.41-10.85a1.44 1.44 0 101.44 1.44 1.44 1.44 0 00-1.44-1.44z"/></svg>
+            </span>
+            <span class="contact-label">Instagram</span>
+            <span class="contact-value">@mustfysldg</span>
+          </a>
+        </div>
+
+        <p class="contact-response-note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" /></svg>
+          <span data-i18n="contact.responseNote">Genellikle 24 saat içinde dönüş yapıyorum.</span>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">MYSTIC</span>
+      <p class="footer-tagline" data-i18n="footer.tagline">Özel inşa edilmiş, sağlam dijital sistemler.</p>
+      <div class="footer-divider" aria-hidden="true"></div>
+      <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 Mustafa Yeşildağ. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/three-bg.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/theme-mode.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
