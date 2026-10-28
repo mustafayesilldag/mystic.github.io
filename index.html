@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="earth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,7 @@
   <title id="page-title">MYSTIC — Mustafa Yeşildağ | Full-Stack Web Geliştirici</title>
   <meta id="meta-description" name="description" content="MYSTIC — Mustafa (MISTIK) tarafından kurulan, sinematik web deneyimleri ve sağlam sistemler üreten full-stack geliştirme markası. Özel panel, CRM ve satış sistemleri." />
   <meta name="author" content="Mustafa Yeşildağ" />
-  <meta name="theme-color" content="#05050a" />
+  <meta id="meta-theme-color" name="theme-color" content="#02060f" />
 
   <meta id="og-title" property="og:title" content="MYSTIC — Sinematik web deneyimleri ve sağlam sistemler" />
   <meta id="og-description" property="og:description" content="Küçük işletmeler ve markalar için, kalıp tasarımların ötesinde özel arayüzler ve satış sistemleri." />
@@ -55,7 +55,8 @@
   <div id="bg-canvas-container"></div>
 
   <div id="earth-photo-layer" aria-hidden="true">
-    <img id="earth-photo-main" src="images/earth-mountain.webp" alt="" />
+    <img id="earth-photo-main" src="images/earth-mountain.webp" alt="" fetchpriority="high" decoding="async" />
+    <div class="earth-sunrise"></div>
   </div>
 
   <div class="bg-overlay"></div>
@@ -65,6 +66,7 @@
   <div class="warp-overlay" id="warp-overlay" aria-hidden="true"></div>
 
   <header class="site-header">
+    <span class="scroll-progress" aria-hidden="true"></span>
 
     <div class="brand-icon-group">
       <button class="brand-icon-btn" id="brand-btn-back" type="button" aria-label="Dünya moduna dön">
@@ -153,39 +155,54 @@
   <main>
 
     <section id="hero" class="hero">
-      <div class="hero-content reveal">
+      <div class="hero-content reveal is-arriving">
 
-        <svg class="hero-sigil" viewBox="0 0 200 200" aria-hidden="true">
-
-          <circle cx="100" cy="100" r="96" class="sigil-ring sigil-ring-outermost" />
-          <circle cx="100" cy="100" r="92" class="sigil-ring sigil-ring-outer" />
-          <g class="sigil-ticks">
-            <path d="M100 4 L100 12" /><path d="M152 17.4 L148 24.3" /><path d="M187.6 52 L180.7 56" />
-            <path d="M196 100 L188 100" /><path d="M187.6 148 L180.7 144" /><path d="M152 182.6 L148 175.7" />
-            <path d="M100 196 L100 188" /><path d="M48 182.6 L52 175.7" /><path d="M12.4 148 L19.3 144" />
-            <path d="M4 100 L12 100" /><path d="M12.4 52 L19.3 56" /><path d="M48 17.4 L52 24.3" />
-          </g>
-          <circle cx="100" cy="100" r="78" class="sigil-ring sigil-ring-mid" />
-          <g class="sigil-runes">
-            <circle cx="100" cy="22" r="2.2" />
-            <circle cx="153.6" cy="46.4" r="2.2" />
-            <circle cx="178" cy="100" r="2.2" />
-            <circle cx="153.6" cy="153.6" r="2.2" />
-            <circle cx="100" cy="178" r="2.2" />
-            <circle cx="46.4" cy="153.6" r="2.2" />
-            <circle cx="22" cy="100" r="2.2" />
-            <circle cx="46.4" cy="46.4" r="2.2" />
-          </g>
-          <circle cx="100" cy="100" r="58" class="sigil-ring sigil-ring-inner" />
-          <path d="M100 18 L100 182 M18 100 L182 100" class="sigil-axis" />
-          <path d="M100 42 L158 100 L100 158 L42 100 Z" class="sigil-diamond" />
-          <path d="M100 58 L100 142 M58 100 L142 100" class="sigil-axis sigil-axis-inner" />
-          <circle cx="100" cy="100" r="34" class="sigil-ring sigil-ring-core" />
-          <circle cx="100" cy="18" r="3" class="sigil-node" />
-          <circle cx="100" cy="182" r="3" class="sigil-node" />
-          <circle cx="18" cy="100" r="3" class="sigil-node" />
-          <circle cx="182" cy="100" r="3" class="sigil-node" />
-        </svg>
+        <div class="hero-sigil" aria-hidden="true">
+          <svg class="sigil-layer sigil-layer-static" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="sigil-gradient" gradientUnits="userSpaceOnUse" x1="20" y1="20" x2="180" y2="180">
+                <stop offset="0" class="sigil-stop-a" />
+                <stop offset="0.55" class="sigil-stop-b" />
+                <stop offset="1" class="sigil-stop-c" />
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="96" class="sigil-ring sigil-ring-outermost" />
+            <path d="M100 18 L100 182 M18 100 L182 100" class="sigil-axis" />
+            <path d="M100 58 L100 142 M58 100 L142 100" class="sigil-axis sigil-axis-inner" />
+            <circle cx="100" cy="100" r="34" class="sigil-ring sigil-ring-core" />
+            <circle cx="100" cy="18" r="1.7" class="sigil-node" />
+            <circle cx="100" cy="182" r="1.7" class="sigil-node" />
+            <circle cx="18" cy="100" r="1.7" class="sigil-node" />
+            <circle cx="182" cy="100" r="1.7" class="sigil-node" />
+          </svg>
+          <svg class="sigil-layer sigil-layer-cw" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="92" class="sigil-ring sigil-ring-outer" />
+            <g class="sigil-ticks">
+              <path d="M100 4 L100 12" /><path d="M152 17.4 L148 24.3" /><path d="M187.6 52 L180.7 56" />
+              <path d="M196 100 L188 100" /><path d="M187.6 148 L180.7 144" /><path d="M152 182.6 L148 175.7" />
+              <path d="M100 196 L100 188" /><path d="M48 182.6 L52 175.7" /><path d="M12.4 148 L19.3 144" />
+              <path d="M4 100 L12 100" /><path d="M12.4 52 L19.3 56" /><path d="M48 17.4 L52 24.3" />
+            </g>
+          </svg>
+          <svg class="sigil-layer sigil-layer-ccw" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="78" class="sigil-ring sigil-ring-mid" />
+            <g class="sigil-runes">
+              <circle cx="100" cy="22" r="1.25" />
+              <circle cx="153.6" cy="46.4" r="1.25" />
+              <circle cx="178" cy="100" r="1.25" />
+              <circle cx="153.6" cy="153.6" r="1.25" />
+              <circle cx="100" cy="178" r="1.25" />
+              <circle cx="46.4" cy="153.6" r="1.25" />
+              <circle cx="22" cy="100" r="1.25" />
+              <circle cx="46.4" cy="46.4" r="1.25" />
+            </g>
+            <path d="M100 42 L158 100 L100 158 L42 100 Z" class="sigil-diamond" />
+          </svg>
+          <svg class="sigil-layer sigil-layer-inner" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="66" class="sigil-ring sigil-ring-dash" />
+            <circle cx="100" cy="100" r="58" class="sigil-ring sigil-ring-inner" />
+          </svg>
+        </div>
 
         <h1 class="hero-title">MYSTIC</h1>
         <p class="hero-tagline" data-i18n="hero.tagline">Uçtan uca yazılım sistemleri, yalnızca sana özel kurulur.</p>
@@ -194,7 +211,10 @@
           <a href="#iletisim" class="btn btn-secondary" data-i18n="hero.btnContact">İletişim</a>
         </div>
       </div>
-      <div class="scroll-hint" data-i18n="hero.scrollHint">Aşağı kaydır</div>
+      <div class="scroll-hint">
+        <span data-i18n="hero.scrollHint">Aşağı kaydır</span>
+        <span class="scroll-hint-track" aria-hidden="true"><span class="scroll-hint-dot"></span></span>
+      </div>
     </section>
 
     <section id="hakkimda" class="section">
@@ -432,7 +452,7 @@
             <span class="contact-icon-badge" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </span>
-            <span class="contact-label">WhatsApp</span>
+            <span class="contact-label" lang="en">WhatsApp</span>
             <span class="contact-value">+90 536 770 11 50</span>
           </a>
           <a href="mailto:mustafayesilldag@gmail.com" class="contact-card">
@@ -446,14 +466,14 @@
             <span class="contact-icon-badge" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.67 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 015.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.4-2.69 5.38-5.25 5.66.41.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .31.21.66.79.55A11.51 11.51 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
             </span>
-            <span class="contact-label">GitHub</span>
+            <span class="contact-label" lang="en">GitHub</span>
             <span class="contact-value">github.com/mustafayesilldag</span>
           </a>
           <a href="https://instagram.com/mustfysldg" target="_blank" rel="noopener" class="contact-card">
             <span class="contact-icon-badge" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.42.56.21.96.47 1.38.89.42.42.68.82.89 1.38.17.43.37 1.06.42 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.21.56-.47.96-.89 1.38-.42.42-.82.68-1.38.89-.43.17-1.06.37-2.23.42-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.21-.96-.47-1.38-.89-.42-.42-.68-.82-.89-1.38-.17-.43-.37-1.06-.42-2.23C2.18 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.42-2.23.21-.56.47-.96.89-1.38.42-.42.82-.68 1.38-.89.43-.17 1.06-.37 2.23-.42C8.42 2.18 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.72-1.46-1.38-2.13-.67-.66-1.34-1.07-2.13-1.38-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zM12 16a4 4 0 114-4 4 4 0 01-4 4zm6.41-10.85a1.44 1.44 0 101.44 1.44 1.44 1.44 0 00-1.44-1.44z"/></svg>
             </span>
-            <span class="contact-label">Instagram</span>
+            <span class="contact-label" lang="en">Instagram</span>
             <span class="contact-value">@mustfysldg</span>
           </a>
         </div>

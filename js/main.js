@@ -12,6 +12,35 @@
     });
 })();
 
+(function settleHeroIntro() {
+    const hero = document.querySelector(".hero-content");
+    if (!hero || !hero.classList.contains("is-arriving")) return;
+    hero.addEventListener("animationend", function handler(e) {
+        if (e.target !== hero) return;
+        hero.classList.remove("is-arriving");
+        hero.removeEventListener("animationend", handler);
+    });
+})();
+
+(function scrimFallback() {
+    const overlay = document.querySelector(".bg-overlay");
+    if (!overlay || window.CSS && CSS.supports && CSS.supports("animation-timeline: scroll()")) return;
+    let queued = false;
+    const update = () => {
+        queued = false;
+        const p = Math.min(window.scrollY / (window.innerHeight * .9), 1);
+        overlay.style.setProperty("--scrim", p.toFixed(3));
+    };
+    window.addEventListener("scroll", () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(update);
+    }, {
+        passive: true
+    });
+    update();
+})();
+
 const navToggle = document.getElementById("nav-toggle");
 
 const navMenu = document.getElementById("nav-menu");
@@ -32,10 +61,22 @@ navMenu.querySelectorAll("a").forEach(link => {
 
 if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     document.querySelectorAll(".skill-card, .project-card, .contact-card, .vision-box, .about-visual-frame").forEach(card => {
-        card.addEventListener("mousemove", e => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty("--mx", `${(e.clientX - rect.left) / rect.width * 100}%`);
-            card.style.setProperty("--my", `${(e.clientY - rect.top) / rect.height * 100}%`);
+        let queued = false;
+        let lastX = 0;
+        let lastY = 0;
+        card.addEventListener("pointermove", e => {
+            lastX = e.clientX;
+            lastY = e.clientY;
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(() => {
+                queued = false;
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty("--mx", `${((lastX - rect.left) / rect.width * 100).toFixed(1)}%`);
+                card.style.setProperty("--my", `${((lastY - rect.top) / rect.height * 100).toFixed(1)}%`);
+            });
+        }, {
+            passive: true
         });
     });
 }
@@ -49,18 +90,35 @@ if (cursorGlow && window.matchMedia("(hover: hover) and (pointer: fine)").matche
     let targetY = window.innerHeight / 2;
     let currentX = targetX;
     let currentY = targetY;
-    window.addEventListener("mousemove", e => {
+    let trailRunning = false;
+    let lastTrail = 0;
+    function trailLoop(now) {
+        const dt = lastTrail ? Math.min((now - lastTrail) / 1e3, .05) : 1 / 60;
+        lastTrail = now;
+        const k = 1 - Math.exp(-dt * 5);
+        currentX += (targetX - currentX) * k;
+        currentY += (targetY - currentY) * k;
+        cursorGlow.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0)`;
+        if (Math.abs(targetX - currentX) < .4 && Math.abs(targetY - currentY) < .4) {
+            trailRunning = false;
+            lastTrail = 0;
+            return;
+        }
+        requestAnimationFrame(trailLoop);
+    }
+    window.addEventListener("pointermove", e => {
+        if (e.pointerType !== "mouse") return;
         targetX = e.clientX;
         targetY = e.clientY;
         cursorGlow.classList.add("is-active");
+        if (!trailRunning) {
+            trailRunning = true;
+            requestAnimationFrame(trailLoop);
+        }
+    }, {
+        passive: true
     });
-    function trailLoop() {
-        currentX += (targetX - currentX) * .08;
-        currentY += (targetY - currentY) * .08;
-        cursorGlow.style.transform = `translate(${currentX}px, ${currentY}px)`;
-        requestAnimationFrame(trailLoop);
-    }
-    trailLoop();
+    document.documentElement.addEventListener("mouseleave", () => cursorGlow.classList.remove("is-active"));
 }
 
 const navLinks = document.querySelectorAll("[data-nav-link]");

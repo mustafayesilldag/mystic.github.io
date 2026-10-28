@@ -1,32 +1,39 @@
 const THEME_ORDER = [ "earth", "galaxy", "universe" ];
 
+const THEME_COLORS = {
+    earth: "#02060f",
+    galaxy: "#07030f",
+    universe: "#0b0402"
+};
+
+const TRANSITION_TIMING = {
+    warpIn: { duration: 2800, swap: .62 },
+    warpOut: { duration: 2800, swap: .16 },
+    dollyIn: { duration: 2400, swap: .46 },
+    dollyOut: { duration: 2900, swap: .5 }
+};
+
+const themeRoot = document.documentElement;
+
 const backBtn = document.getElementById("brand-btn-back");
 
 const forwardBtn = document.getElementById("brand-btn-forward");
 
-const warpOverlay = document.getElementById("warp-overlay");
+const flashLayer = document.getElementById("warp-overlay");
 
 const earthPhotoLayerForTheme = document.getElementById("earth-photo-layer");
 
+const themeColorMeta = document.getElementById("meta-theme-color");
+
 const prefersReducedMotionTheme = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const DOLLY_DURATION = 1600;
-
-const DOLLY_SWAP_FRACTION = .46;
-
-const WARP_DURATION = 2800;
-
-const WARP_SWAP_FRACTION_IN = .62;
-
-const WARP_SWAP_FRACTION_OUT = .16;
-
-const REDUCED_DURATION = 260;
-
-const REDUCED_SWAP_DELAY = 130;
 
 let currentTheme = document.body.dataset.theme || "earth";
 
 let isWarping = false;
+
+let transitionTimers = [];
+
+let pendingTheme = null;
 
 function themeIndex(theme) {
     return THEME_ORDER.indexOf(theme);
@@ -67,34 +74,62 @@ window.mysticRefreshBrandLabel = function() {
 function swapThemeDom(theme) {
     currentTheme = theme;
     document.body.dataset.theme = theme;
+    themeRoot.dataset.theme = theme;
+    if (themeColorMeta) themeColorMeta.setAttribute("content", THEME_COLORS[theme]);
     applyButtonLabels(theme);
 }
 
-function hideHeroForWarp() {
-    const hero = document.querySelector(".hero-content");
-    if (!hero) return;
-    hero.classList.remove("is-arriving");
-    hero.classList.add("is-hidden-for-warp");
+function later(fn, ms) {
+    transitionTimers.push(setTimeout(fn, ms));
 }
 
-function triggerHeroArrive() {
+function clearTransitionTimers() {
+    transitionTimers.forEach(clearTimeout);
+    transitionTimers = [];
+}
+
+function playFlash(kind) {
+    if (!flashLayer) return;
+    flashLayer.classList.remove("is-flash", "is-bang", "is-fade");
+    void flashLayer.offsetWidth;
+    flashLayer.classList.add(kind);
+}
+
+if (flashLayer) {
+    flashLayer.addEventListener("animationend", () => {
+        flashLayer.classList.remove("is-flash", "is-bang", "is-fade");
+    });
+}
+
+function heroArrive() {
     const hero = document.querySelector(".hero-content");
     if (!hero) return;
-    hero.classList.remove("is-hidden-for-warp");
     hero.classList.remove("is-arriving");
     void hero.offsetWidth;
     hero.classList.add("is-arriving");
-    hero.addEventListener("animationend", function handler() {
+    hero.addEventListener("animationend", function handler(e) {
+        if (e.target !== hero) return;
         hero.classList.remove("is-arriving");
         hero.removeEventListener("animationend", handler);
     });
 }
 
-function finishWarp(chargingBtn, overlayClass) {
-    warpOverlay.classList.remove(overlayClass);
+function revealContent() {
+    if (!themeRoot.classList.contains("is-theme-shifting")) return;
+    themeRoot.classList.remove("is-theme-shifting");
+    heroArrive();
+}
+
+function finishTransition(chargingBtn) {
+    clearTransitionTimers();
+    if (pendingTheme && currentTheme !== pendingTheme) swapThemeDom(pendingTheme);
+    if (typeof window.mysticFinishDolly === "function") window.mysticFinishDolly();
+    pendingTheme = null;
+    revealContent();
     if (chargingBtn) chargingBtn.classList.remove("is-charging");
     if (backBtn) backBtn.disabled = false;
     if (forwardBtn) forwardBtn.disabled = false;
+    delete themeRoot.dataset.shift;
     isWarping = false;
     if (typeof window.mysticUpdateEarthScrollFade === "function") {
         window.mysticUpdateEarthScrollFade();
@@ -107,37 +142,36 @@ function startTransition(targetTheme, direction) {
     if (backBtn) backBtn.disabled = true;
     if (forwardBtn) forwardBtn.disabled = true;
     if (earthPhotoLayerForTheme) earthPhotoLayerForTheme.style.transition = "none";
+    const fromTheme = currentTheme;
+    pendingTheme = targetTheme;
     const chargingBtn = direction === "out" ? forwardBtn : backBtn;
-    const useWarp = currentTheme === "earth" || targetTheme === "earth";
-    const duration = useWarp ? WARP_DURATION : DOLLY_DURATION;
-    const swapFraction = useWarp ? direction === "in" ? WARP_SWAP_FRACTION_IN : WARP_SWAP_FRACTION_OUT : DOLLY_SWAP_FRACTION;
-    if (useWarp) hideHeroForWarp();
-    if (prefersReducedMotionTheme) {
-        warpOverlay.classList.add("is-warping-reduced");
-        setTimeout(() => {
+    const useWarp = fromTheme === "earth" || targetTheme === "earth";
+    const timing = TRANSITION_TIMING[(useWarp ? "warp" : "dolly") + (direction === "in" ? "In" : "Out")];
+    themeRoot.dataset.shift = `${fromTheme}-${targetTheme}`;
+    const quick = prefersReducedMotionTheme || themeRoot.classList.contains("no-webgl");
+    if (quick) {
+        playFlash("is-fade");
+        later(() => {
             swapThemeDom(targetTheme);
             if (typeof window.mysticSetScene === "function") window.mysticSetScene(targetTheme);
-        }, REDUCED_SWAP_DELAY);
-        setTimeout(() => {
-            finishWarp(null, "is-warping-reduced");
-            if (useWarp) triggerHeroArrive();
-        }, REDUCED_DURATION);
+        }, 200);
+        later(() => finishTransition(null), 460);
         return;
     }
+    themeRoot.classList.add("is-theme-shifting");
     if (chargingBtn) chargingBtn.classList.add("is-charging");
+    const afterSwap = timing.duration * (1 - timing.swap);
     window.mysticOnDollySwap = theme => {
         swapThemeDom(theme);
-        warpOverlay.classList.add("is-warping-full");
+        playFlash(theme === "universe" ? "is-bang" : "is-flash");
+        later(revealContent, Math.max(320, afterSwap * .42));
     };
     if (typeof window.mysticStartCameraDolly === "function") {
-        window.mysticStartCameraDolly(direction, targetTheme, duration, swapFraction, useWarp);
+        window.mysticStartCameraDolly(direction, targetTheme, timing.duration, timing.swap, useWarp);
     } else {
-        swapThemeDom(targetTheme);
+        later(() => window.mysticOnDollySwap(targetTheme), timing.duration * timing.swap);
     }
-    setTimeout(() => {
-        finishWarp(chargingBtn, "is-warping-full");
-        if (useWarp) triggerHeroArrive();
-    }, duration);
+    later(() => finishTransition(chargingBtn), timing.duration + 40);
 }
 
 if (backBtn) {
@@ -156,11 +190,14 @@ if (forwardBtn) {
     });
 }
 
-applyButtonLabels(currentTheme);
+swapThemeDom(currentTheme);
 
 window.addEventListener("keydown", e => {
     if (e.key !== "Escape" || !isWarping) return;
     if (typeof window.mysticSkipTransition === "function") {
         window.mysticSkipTransition();
     }
+    const chargingBtn = document.querySelector(".brand-icon-btn.is-charging");
+    clearTransitionTimers();
+    later(() => finishTransition(chargingBtn), 80);
 });
