@@ -174,7 +174,7 @@
             if (d > 1.0) discard;
             float glow = exp(-d * 2.2) * (1.0 - d * d);
             float core = exp(-d * 22.0);
-            gl_FragColor = vec4(vColor + core * 0.6, vAlpha * glow);
+            gl_FragColor = vec4(vColor + core * 0.32, vAlpha * glow);
         }
     `;
 
@@ -404,14 +404,14 @@
             uForm: { value: 1 },
             uAlpha: { value: 1 }
         };
-        const cCore = rgb(0xfff6ea);
-        const cWarm = rgb(0xffd9ad);
-        const cPink = rgb(0xf6b6ff);
-        const cViolet = rgb(0xb46bff);
-        const cDeep = rgb(0x7a4dff);
-        const cIndigo = rgb(0x3f55ff);
-        const cYoung = rgb(0xa8dcff);
-        const cKnot = rgb(0xff5cc8);
+        const cCore = rgb(0xfff4e6);
+        const cWarm = rgb(0xffe2c2);
+        const cPink = rgb(0xe4dcff);
+        const cViolet = rgb(0xaebcff);
+        const cDeep = rgb(0x7486f0);
+        const cIndigo = rgb(0x4253c4);
+        const cYoung = rgb(0xb5d6ff);
+        const cKnot = rgb(0xe48bc4);
         const white = [ 1, 1, 1 ];
         const disk = galaxyPoints(compactScreen ? 16000 : 30000, () => {
             const diffuse = Math.random() < .32;
@@ -431,25 +431,25 @@
             let c;
             if (t < .08) c = mixRgb(cCore, cWarm, t / .08); else if (t < .3) c = mixRgb(cWarm, cPink, (t - .08) / .22); else if (t < .62) c = mixRgb(cPink, cViolet, (t - .3) / .32); else if (t < .82) c = mixRgb(cViolet, cDeep, (t - .62) / .2); else c = mixRgb(cDeep, cIndigo, (t - .82) / .18);
             let size = .03 + Math.random() * .012;
-            let b = (diffuse ? .5 : .82 + Math.random() * .28) * (1 - t * .38);
+            let b = (diffuse ? .4 : .66 + Math.random() * .24) * (1 - t * .38);
             let tw = 0;
             if (!diffuse && t > .12) {
                 const roll = Math.random();
-                if (roll < .07) {
+                if (roll < .06) {
                     c = mixRgb(cYoung, white, Math.random() * .3);
-                    size *= 1.9;
-                    b = 1.15;
-                    tw = .35;
-                } else if (roll < .11) {
+                    size *= 1.8;
+                    b = .9;
+                    tw = .25;
+                } else if (roll < .085) {
                     c = cKnot;
-                    size *= 2.4;
-                    b = 1;
-                    tw = .2;
+                    size *= 2.1;
+                    b = .72;
+                    tw = .15;
                 } else if (offset < 0 && offset > -(.14 + t * .22)) {
                     b *= .22;
                 }
             }
-            if (t < .1) b = 1.1;
+            if (t < .1) b = .9;
             return { r: r, a: a, h: gauss() * (.05 + .34 * Math.exp(-r * 1.25)), size: size, c: c, b: b, tw: tw };
         }, uniforms);
         const bulge = galaxyPoints(compactScreen ? 1400 : 2600, () => {
@@ -459,19 +459,19 @@
             const x = rr * Math.sin(ph) * Math.cos(th) * 1.5;
             const z = rr * Math.sin(ph) * Math.sin(th);
             const t = rr / 1.15;
-            const c = t < .4 ? mixRgb(white, rgb(0xfff0dc), t / .4) : mixRgb(rgb(0xfff0dc), rgb(0xffc9ec), (t - .4) / .6);
-            return { r: Math.hypot(x, z), a: Math.atan2(z, x), h: rr * Math.cos(ph) * .55, size: .032, c: c, b: 1, tw: 0 };
+            const c = t < .4 ? mixRgb(white, rgb(0xfff0dc), t / .4) : mixRgb(rgb(0xfff0dc), rgb(0xe9dcff), (t - .4) / .6);
+            return { r: Math.hypot(x, z), a: Math.atan2(z, x), h: rr * Math.cos(ph) * .55, size: .03, c: c, b: .8, tw: 0 };
         }, uniforms);
         group.add(disk);
         group.add(bulge);
         const nebulaGroup = new THREE.Group;
         const clouds = [ cloudTexture(30), cloudTexture(38), cloudTexture(24) ];
-        const nebulaTints = [ 0xff5cc8, 0xa64dff, 0x5aa8ff, 0xff7ad9, 0x7f5cff, 0xd96bff ];
+        const nebulaTints = [ 0x8a96ff, 0xa08be6, 0x6fa4e0, 0xc98ab8, 0x7c86e8, 0x9fb4ff ];
         const nebulae = [];
         for (let i = 0; i < 12; i++) {
             const r = 1 + Math.random() * 3.8;
             const a = (i % 2 === 0 ? 0 : .5) * TAU + r * .92 + gauss() * .16;
-            const intensity = .16 + Math.random() * .16;
+            const intensity = .1 + Math.random() * .1;
             const mesh = billboard(NEBULA_FRAGMENT, {
                 uMap: { value: clouds[i % clouds.length] },
                 uColor: { value: vec3(nebulaTints[i % nebulaTints.length]) },
@@ -486,14 +486,14 @@
         }
         group.add(nebulaGroup);
         const coreOuter = billboard(GLOW_FRAGMENT, {
-            uInner: { value: vec3(0xffd9f4) },
-            uOuter: { value: vec3(0x9d4dff) },
-            uIntensity: { value: .8 }
+            uInner: { value: vec3(0xfff0e6) },
+            uOuter: { value: vec3(0x6f73c8) },
+            uIntensity: { value: .55 }
         }, 4.6);
         const coreInner = billboard(GLOW_FRAGMENT, {
             uInner: { value: vec3(0xffffff) },
-            uOuter: { value: vec3(0xff9ee6) },
-            uIntensity: { value: .9 }
+            uOuter: { value: vec3(0xffd9c2) },
+            uIntensity: { value: .7 }
         }, 1.3);
         group.add(coreOuter);
         group.add(coreInner);
@@ -522,107 +522,22 @@
                 const breathe = 1 + Math.sin(t * .45) * .16;
                 coreInner.material.uniforms.uSize.value = 1.3 * breathe;
                 coreOuter.material.uniforms.uSize.value = 4.6 * breathe * (.5 + .5 * f);
-                coreInner.material.uniforms.uIntensity.value = (.82 + Math.sin(t * .45) * .12) * (.4 + .6 * f);
-                coreOuter.material.uniforms.uIntensity.value = (.7 + Math.sin(t * .45) * .16) * f;
+                coreInner.material.uniforms.uIntensity.value = (.62 + Math.sin(t * .45) * .08) * (.4 + .6 * f);
+                coreOuter.material.uniforms.uIntensity.value = (.48 + Math.sin(t * .45) * .1) * f;
             }
         };
     }
 
-    const UNIVERSE_RADIUS = 4.4;
+    const UNIVERSE_RADIUS = 4.6;
 
-    const UNIVERSE_COLORS = {
-        uHot: { value: vec3(0xfffaf0) },
-        uGold: { value: vec3(0xffd27a) },
-        uEmber: { value: vec3(0xff7a2a) },
-        uCrimson: { value: vec3(0xe8284f) },
-        uViolet: { value: vec3(0x6a3cff) }
-    };
-
-    const TEMPERATURE = `
-        vec3 temperature(float life) {
-            vec3 c = mix(uHot, uGold, smoothstep(0.0, 0.1, life));
-            c = mix(c, uEmber, smoothstep(0.08, 0.32, life));
-            c = mix(c, uCrimson, smoothstep(0.3, 0.62, life));
-            return mix(c, uViolet, smoothstep(0.6, 0.95, life));
-        }
-    `;
-
-    const OUTFLOW_HEAD = `
-        uniform float uTime;
-        uniform float uScale;
-        uniform float uBirth;
-        uniform float uRadius;
+    const COSMIC_FRAGMENT = `
+        uniform sampler2D uMap;
         uniform float uAlpha;
-        uniform vec3 uHot;
-        uniform vec3 uGold;
-        uniform vec3 uEmber;
-        uniform vec3 uCrimson;
-        uniform vec3 uViolet;
-        attribute vec4 aSeed;
-        varying vec3 vColor;
-        varying float vAlpha;
-    ` + TEMPERATURE;
-
-    const OUTFLOW_VERTEX = OUTFLOW_HEAD + `
+        varying vec2 vUv;
+        varying float vNear;
         void main() {
-            float life = fract(uTime * 0.045 * aSeed.x + aSeed.y);
-            float grow = 1.0 - pow(1.0 - life, 2.4);
-            float bang = 1.0 - pow(1.0 - uBirth, 3.0);
-            vec3 dir = normalize(position);
-            vec3 side = normalize(cross(dir, vec3(0.31, 0.94, 0.12)));
-            float swirl = aSeed.w * grow * 0.35 * sin(uTime * 0.25 + aSeed.y * 6.2831);
-            vec3 p = dir * uRadius * grow * bang + side * swirl * bang;
-            vec4 mv = modelViewMatrix * vec4(p, 1.0);
-            gl_Position = projectionMatrix * mv;
-            float s = aSeed.z * mix(1.7, 0.75, life) * uScale / -mv.z;
-            gl_PointSize = clamp(s, 1.0, 22.0);
-            float fade = smoothstep(0.0, 0.035, life) * (1.0 - smoothstep(0.78, 1.0, life));
-            vAlpha = uAlpha * fade * clamp(s * s, 0.12, 1.0) * smoothstep(0.25, 1.4, -mv.z);
-            vColor = temperature(life) * (1.0 + (1.0 - uBirth) * 2.2);
-        }
-    `;
-
-    const STREAK_VERTEX = OUTFLOW_HEAD + `
-        attribute float aEnd;
-        void main() {
-            float life = fract(uTime * 0.045 * aSeed.x + aSeed.y);
-            float grow = 1.0 - pow(1.0 - life, 2.4);
-            float bang = 1.0 - pow(1.0 - uBirth, 3.0);
-            float tail = max(0.0, grow - aSeed.z * (1.0 - life) * 0.55);
-            vec3 p = normalize(position) * uRadius * mix(tail, grow, aEnd) * bang;
-            vec4 mv = modelViewMatrix * vec4(p, 1.0);
-            gl_Position = projectionMatrix * mv;
-            float fade = smoothstep(0.0, 0.05, life) * (1.0 - smoothstep(0.6, 0.95, life));
-            vAlpha = uAlpha * aEnd * fade * smoothstep(0.25, 1.4, -mv.z);
-            vColor = temperature(life) * (1.0 + (1.0 - uBirth) * 1.5);
-        }
-    `;
-
-    const LINE_FRAGMENT = `
-        varying vec3 vColor;
-        varying float vAlpha;
-        void main() {
-            gl_FragColor = vec4(vColor, vAlpha);
-        }
-    `;
-
-    const RING_VERTEX = `
-        uniform float uRadius;
-        varying float vBand;
-        void main() {
-            vBand = (length(position.xy) - 0.9) / 0.1;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position.xy * uRadius, 0.0, 1.0);
-        }
-    `;
-
-    const RING_FRAGMENT = `
-        uniform vec3 uColor;
-        uniform float uAlpha;
-        varying float vBand;
-        void main() {
-            float b = clamp(vBand, 0.0, 1.0);
-            float i = smoothstep(0.0, 0.85, b) * (1.0 - smoothstep(0.85, 1.0, b));
-            gl_FragColor = vec4(uColor, i * uAlpha);
+            vec4 t = texture2D(uMap, vUv);
+            gl_FragColor = vec4(t.rgb, t.a * uAlpha * vNear);
         }
     `;
 
@@ -630,23 +545,75 @@
         uniform float uTime;
         uniform float uIntensity;
         uniform vec3 uHot;
-        uniform vec3 uGold;
-        uniform vec3 uEmber;
+        uniform vec3 uWarm;
+        uniform vec3 uCool;
         varying vec2 vUv;
         varying float vNear;
         void main() {
             vec2 p = (vUv - 0.5) * 2.0;
             float d = length(p);
-            float edge = 1.0 - smoothstep(0.75, 1.0, d);
-            float core = exp(-d * d * 90.0) * 2.2;
-            float inner = exp(-d * 9.0) * 0.9;
-            float halo = exp(-d * 3.0) * 0.45 * edge;
-            float flare = exp(-abs(p.y) * 55.0) * exp(-abs(p.x) * 2.6) * 0.85 * edge;
-            float ang = atan(p.y, p.x);
-            float spikes = pow(abs(cos(ang * 3.0 + uTime * 0.04)), 60.0) * exp(-d * 4.5) * 0.6 * edge;
-            float flicker = 0.93 + 0.07 * sin(uTime * 3.1) * sin(uTime * 1.7);
-            vec3 c = uHot * (core + inner * 0.6) + mix(uGold, uEmber, clamp(d * 1.4, 0.0, 1.0)) * (halo + inner * 0.4) + mix(uHot, uGold, 0.4) * (flare + spikes);
-            gl_FragColor = vec4(c * uIntensity * flicker * vNear, 1.0);
+            float edge = 1.0 - smoothstep(0.7, 1.0, d);
+            float core = exp(-d * d * 120.0) * 1.5;
+            float inner = exp(-d * 10.0) * 0.5;
+            float halo = exp(-d * 3.2) * 0.3 * edge;
+            float ring = exp(-pow((d - 0.3) / 0.03, 2.0)) * 0.3 * (0.8 + 0.2 * sin(uTime * 0.6));
+            float flare = exp(-abs(p.y) * 70.0) * exp(-abs(p.x) * 3.2) * 0.2 * edge;
+            float pulse = 0.95 + 0.05 * sin(uTime * 0.8);
+            vec3 c = uHot * (core + inner * 0.5 + flare) + uWarm * (inner * 0.5 + halo) + mix(uWarm, uCool, 0.65) * ring;
+            gl_FragColor = vec4(c * uIntensity * pulse * vNear, 1.0);
+        }
+    `;
+
+    const DUST_VERTEX = `
+        attribute vec4 aOrbit;
+        attribute vec3 aColor;
+        attribute vec2 aSeed;
+        uniform float uTime;
+        uniform float uScale;
+        uniform float uBirth;
+        uniform float uAlpha;
+        varying vec3 vColor;
+        varying float vAlpha;
+        void main() {
+            float bang = 1.0 - pow(1.0 - uBirth, 3.0);
+            float r = aOrbit.x * (0.06 + 0.94 * bang);
+            float a = aOrbit.y + uTime * (0.035 + 0.06 / (1.0 + aOrbit.x));
+            vec3 p = vec3(cos(a) * r, aOrbit.z * bang, sin(a) * r);
+            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+            gl_Position = projectionMatrix * mv;
+            float s = aOrbit.w * uScale / -mv.z;
+            float tw = 0.75 + 0.25 * sin(uTime * (0.5 + aSeed.x) + aSeed.y * 6.2831);
+            gl_PointSize = clamp(s, 1.0, 16.0);
+            vAlpha = uAlpha * tw * clamp(s * s, 0.12, 1.0) * smoothstep(0.25, 1.4, -mv.z);
+            vColor = aColor * (1.0 + (1.0 - uBirth) * 1.2);
+        }
+    `;
+
+    const STREAM_VERTEX = `
+        attribute vec4 aSeed;
+        attribute vec3 aColor;
+        uniform float uTime;
+        uniform float uScale;
+        uniform float uBirth;
+        uniform float uAlpha;
+        uniform float uRadius;
+        varying vec3 vColor;
+        varying float vAlpha;
+        void main() {
+            float life = fract(uTime * 0.035 * aSeed.z + aSeed.y);
+            float reach = smoothstep(0.0, 1.0, uBirth * 1.3 - life * 0.3);
+            float r = mix(0.22, uRadius, pow(life, 0.85));
+            float a = aSeed.x + r * 0.62 + uTime * 0.05;
+            float wave = sin(r * 1.7 + aSeed.x * 3.0 + uTime * 0.4) * 0.22;
+            vec3 side = vec3(-sin(a), 0.0, cos(a));
+            vec3 p = vec3(cos(a) * r, wave + aSeed.w * 0.08, sin(a) * r) + side * aSeed.w * (0.06 + 0.16 * life);
+            vec4 mv = modelViewMatrix * vec4(p, 1.0);
+            gl_Position = projectionMatrix * mv;
+            float s = (0.05 * (1.0 - life) + 0.02) * uScale / -mv.z;
+            gl_PointSize = clamp(s, 1.0, 14.0);
+            float fade = smoothstep(0.0, 0.08, life) * (1.0 - smoothstep(0.5, 1.0, life));
+            vAlpha = uAlpha * fade * reach * clamp(s * s, 0.12, 1.0) * smoothstep(0.25, 1.4, -mv.z);
+            vColor = aColor;
         }
     `;
 
@@ -676,14 +643,47 @@
         return [ s * Math.cos(a), s * Math.sin(a), z ];
     }
 
-    function outflowDirection(axes) {
-        if (Math.random() < .5) return randomUnit();
-        const axis = axes[Math.floor(Math.random() * axes.length)];
-        const x = axis[0] + gauss() * .26;
-        const y = axis[1] + gauss() * .26;
-        const z = axis[2] + gauss() * .26;
-        const l = Math.hypot(x, y, z) || 1;
-        return [ x / l, y / l, z / l ];
+    function cosmicTexture(size, o) {
+        const c = document.createElement("canvas");
+        c.width = c.height = size;
+        const ctx = c.getContext("2d");
+        const half = size / 2;
+        const stops = o.palette.map(rgb);
+        const paint = (x, y, rad, col, a) => {
+            const g = ctx.createRadialGradient(x, y, 0, x, y, rad);
+            const v = `${Math.round(col[0] * 255)},${Math.round(col[1] * 255)},${Math.round(col[2] * 255)}`;
+            g.addColorStop(0, `rgba(${v},${a})`);
+            g.addColorStop(.55, `rgba(${v},${a * .35})`);
+            g.addColorStop(1, `rgba(${v},0)`);
+            ctx.fillStyle = g;
+            ctx.fillRect(x - rad, y - rad, rad * 2, rad * 2);
+        };
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < o.blobs; i++) {
+            const arm = i % o.arms;
+            const t = Math.pow(Math.random(), o.spread);
+            const r = (o.inner + t * (.46 - o.inner)) * size;
+            const ang = arm / o.arms * TAU + t * o.twist + gauss() * o.scatter;
+            const k = Math.min(t * (stops.length - 1), stops.length - 1.001);
+            const i0 = Math.floor(k);
+            const col = mixRgb(stops[i0], stops[i0 + 1], k - i0);
+            paint(half + Math.cos(ang) * r, half + Math.sin(ang) * r, size * (.025 + Math.random() * .07) * (.55 + t * .9), col, o.alpha * (.45 + Math.random() * .55));
+        }
+        ctx.globalCompositeOperation = "destination-out";
+        for (let i = 0; i < o.lanes; i++) {
+            const arm = i % o.arms;
+            const t = Math.random();
+            const r = (o.inner + t * (.44 - o.inner)) * size;
+            const ang = arm / o.arms * TAU + t * o.twist - .24 + gauss() * .05;
+            paint(half + Math.cos(ang) * r, half + Math.sin(ang) * r, size * (.012 + Math.random() * .03), [ 0, 0, 0 ], .1 + Math.random() * .18);
+        }
+        ctx.globalCompositeOperation = "destination-in";
+        const mask = ctx.createRadialGradient(half, half, size * .12, half, half, half);
+        mask.addColorStop(0, "rgba(0,0,0,1)");
+        mask.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = mask;
+        ctx.fillRect(0, 0, size, size);
+        return new THREE.CanvasTexture(c);
     }
 
     function buildCosmicWeb(count) {
@@ -700,7 +700,7 @@
                 if (!links.some(l => l[0] === o.j && l[1] === i)) links.push([ i, o.j ]);
             });
         });
-        const tints = [ 0x8a5cff, 0xff5c8a, 0xffa25c, 0x5aa8ff, 0xd86bff ].map(rgb);
+        const tints = [ 0x6f7fd8, 0xc0607a, 0xd08a5a, 0x4f9fb8, 0x8f6fd0 ].map(rgb);
         const pos = new Float32Array(count * 3);
         const col = new Float32Array(count * 3);
         const seed = new Float32Array(count * 2);
@@ -711,8 +711,8 @@
                 const n = nodes[k];
                 p = [ n[0] + gauss() * .45, n[1] + gauss() * .45, n[2] + gauss() * .45 ];
                 c = tints[k % tints.length];
-                b = .6 + Math.random() * .4;
-                size = .05;
+                b = .36 + Math.random() * .24;
+                size = .045;
             } else {
                 const l = links[Math.floor(Math.random() * links.length)];
                 const a = nodes[l[0]];
@@ -721,8 +721,8 @@
                 const j = .22 * (.4 + Math.sin(t * Math.PI));
                 p = [ a[0] + (e[0] - a[0]) * t + gauss() * j, a[1] + (e[1] - a[1]) * t + gauss() * j, a[2] + (e[2] - a[2]) * t + gauss() * j ];
                 c = mixRgb(tints[l[0] % tints.length], tints[l[1] % tints.length], t);
-                b = .25 + Math.random() * .3;
-                size = .035;
+                b = .16 + Math.random() * .2;
+                size = .032;
             }
             pos.set(p, i * 3);
             col[i * 3] = c[0] * b;
@@ -742,74 +742,104 @@
         return { points: points, uniforms: uniforms };
     }
 
+    const COSMIC_LAYERS = [
+        { size: 640, scale: 14, spin: .006, delay: .16, alpha: .9, opts: { blobs: 520, arms: 3, twist: 3.4, spread: .9, inner: .1, scatter: .35, alpha: .085, lanes: 70, palette: [ 0xd9925a, 0xb04a6a, 0x5a3f9e, 0x1f6f8c, 0x14324f ] } },
+        { size: 512, scale: 8.6, spin: -.012, delay: .08, alpha: .85, opts: { blobs: 400, arms: 2, twist: 4.2, spread: .85, inner: .05, scatter: .28, alpha: .1, lanes: 60, palette: [ 0xffd6a0, 0xe08a4a, 0xa24a78, 0x3f5fae, 0x2a8aa0 ] } },
+        { size: 384, scale: 4.4, spin: .028, delay: 0, alpha: .8, opts: { blobs: 280, arms: 4, twist: 5, spread: .8, inner: .02, scatter: .22, alpha: .12, lanes: 40, palette: [ 0xfff1dc, 0xffc27a, 0xe0703a, 0x9a3f6a ] } }
+    ];
+
+    const STREAM_COLORS = [ 0x5b8cff, 0xd9485f, 0x9a62e0, 0xe8c25a, 0x4fbf8a, 0xe58a45 ];
+
     function buildUniverse() {
         const group = new THREE.Group;
-        const shared = Object.assign({
-            uBirth: { value: 1 },
-            uRadius: { value: UNIVERSE_RADIUS },
-            uAlpha: { value: 1 }
-        }, UNIVERSE_COLORS);
-        const axes = [];
-        for (let i = 0; i < 18; i++) axes.push(randomUnit());
-        const flowCount = compactScreen ? 8000 : 15000;
-        const flowDir = new Float32Array(flowCount * 3);
-        const flowSeed = new Float32Array(flowCount * 4);
-        for (let i = 0; i < flowCount; i++) {
-            flowDir.set(outflowDirection(axes), i * 3);
-            flowSeed[i * 4] = .6 + Math.random() * .8;
-            flowSeed[i * 4 + 1] = Math.random();
-            flowSeed[i * 4 + 2] = .022 + Math.random() * .03;
-            flowSeed[i * 4 + 3] = gauss();
-        }
-        const flowGeo = new THREE.BufferGeometry;
-        flowGeo.setAttribute("position", new THREE.BufferAttribute(flowDir, 3));
-        flowGeo.setAttribute("aSeed", new THREE.BufferAttribute(flowSeed, 4));
-        const flow = new THREE.Points(flowGeo, additiveMaterial(OUTFLOW_VERTEX, POINT_FRAGMENT, shared));
-        flow.frustumCulled = false;
-        registerDensity(flow, flowCount);
-        group.add(flow);
-        const streakCount = compactScreen ? 700 : 1500;
-        const streakDir = new Float32Array(streakCount * 6);
-        const streakSeed = new Float32Array(streakCount * 8);
-        const streakEnd = new Float32Array(streakCount * 2);
-        for (let i = 0; i < streakCount; i++) {
-            const d = outflowDirection(axes);
-            const speed = .6 + Math.random() * .8;
-            const phase = Math.random();
-            const len = .25 + Math.random() * .75;
-            for (let k = 0; k < 2; k++) {
-                streakDir.set(d, (i * 2 + k) * 3);
-                streakSeed.set([ speed, phase, len, 0 ], (i * 2 + k) * 4);
-                streakEnd[i * 2 + k] = k;
-            }
-        }
-        const streakGeo = new THREE.BufferGeometry;
-        streakGeo.setAttribute("position", new THREE.BufferAttribute(streakDir, 3));
-        streakGeo.setAttribute("aSeed", new THREE.BufferAttribute(streakSeed, 4));
-        streakGeo.setAttribute("aEnd", new THREE.BufferAttribute(streakEnd, 1));
-        const streakMat = additiveMaterial(STREAK_VERTEX, LINE_FRAGMENT, Object.assign({}, shared, { uAlpha: { value: .42 } }));
-        const streaks = new THREE.LineSegments(streakGeo, streakMat);
-        streaks.frustumCulled = false;
-        registerDensity(streaks, streakCount, 2);
-        group.add(streaks);
-        const web = buildCosmicWeb(compactScreen ? 2200 : 4200);
-        group.add(web.points);
-        const ringGeo = new THREE.RingGeometry(.9, 1, 160, 1);
-        const rings = [ [ 1.22, .1 ], [ .38, -.5 ], [ -.95, .7 ] ].map((tilt, i) => {
-            const mesh = new THREE.Mesh(ringGeo, additiveMaterial(RING_VERTEX, RING_FRAGMENT, {
-                uRadius: { value: 1 },
-                uColor: { value: new THREE.Vector3 },
-                uAlpha: { value: 0 }
-            }));
-            mesh.rotation.set(tilt[0], tilt[1], 0);
-            mesh.frustumCulled = false;
-            mesh.userData.offset = i / 3;
+        const disk = new THREE.Group;
+        disk.rotation.x = 1.08;
+        disk.rotation.z = .32;
+        group.add(disk);
+        const uBirth = { value: 1 };
+        const uRadius = { value: UNIVERSE_RADIUS };
+        const layers = COSMIC_LAYERS.map(l => {
+            const mesh = billboard(COSMIC_FRAGMENT, {
+                uMap: { value: cosmicTexture(compactScreen ? Math.round(l.size * .75) : l.size, l.opts) },
+                uAlpha: { value: l.alpha }
+            }, l.scale);
+            mesh.userData.layer = l;
+            mesh.userData.rot = Math.random() * TAU;
             group.add(mesh);
             return mesh;
         });
-        const ringGold = rgb(0xffd27a);
-        const ringCrimson = rgb(0xe8284f);
-        const core = billboard(SINGULARITY_FRAGMENT, Object.assign({ uIntensity: { value: 1 } }, UNIVERSE_COLORS), 3.6);
+        const dustCount = compactScreen ? 5000 : 9000;
+        const dustOrbit = new Float32Array(dustCount * 4);
+        const dustColor = new Float32Array(dustCount * 3);
+        const dustSeed = new Float32Array(dustCount * 2);
+        const dWarm = rgb(0xffe6c4);
+        const dRose = rgb(0xd98a9a);
+        const dTeal = rgb(0x7fb6d0);
+        for (let i = 0; i < dustCount; i++) {
+            const halo = Math.random() < .25;
+            const r = Math.min(-Math.log(1 - Math.random() * .98) * 1.25 + .15, UNIVERSE_RADIUS * 1.15);
+            const t = Math.min(r / UNIVERSE_RADIUS, 1);
+            const c = t < .4 ? mixRgb(dWarm, dRose, t / .4) : mixRgb(dRose, dTeal, (t - .4) / .6);
+            const bright = Math.random() < .03;
+            const b = (bright ? .95 : .4 + Math.random() * .4) * (1 - t * .35);
+            dustOrbit[i * 4] = r;
+            dustOrbit[i * 4 + 1] = Math.random() * TAU;
+            dustOrbit[i * 4 + 2] = halo ? gauss() * r * .7 : gauss() * (.05 + .12 * t);
+            dustOrbit[i * 4 + 3] = bright ? .045 : .02 + Math.random() * .016;
+            dustColor[i * 3] = c[0] * b;
+            dustColor[i * 3 + 1] = c[1] * b;
+            dustColor[i * 3 + 2] = c[2] * b;
+            dustSeed[i * 2] = Math.random();
+            dustSeed[i * 2 + 1] = Math.random();
+        }
+        const dustGeo = new THREE.BufferGeometry;
+        dustGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(dustCount * 3), 3));
+        dustGeo.setAttribute("aOrbit", new THREE.BufferAttribute(dustOrbit, 4));
+        dustGeo.setAttribute("aColor", new THREE.BufferAttribute(dustColor, 3));
+        dustGeo.setAttribute("aSeed", new THREE.BufferAttribute(dustSeed, 2));
+        const dust = new THREE.Points(dustGeo, additiveMaterial(DUST_VERTEX, POINT_FRAGMENT, {
+            uBirth: uBirth,
+            uAlpha: { value: .85 }
+        }));
+        dust.frustumCulled = false;
+        registerDensity(dust, dustCount);
+        disk.add(dust);
+        const perStream = compactScreen ? 200 : 380;
+        const streamCount = perStream * STREAM_COLORS.length;
+        const streamSeed = new Float32Array(streamCount * 4);
+        const streamColor = new Float32Array(streamCount * 3);
+        const grey = [ .62, .62, .66 ];
+        for (let i = 0; i < streamCount; i++) {
+            const k = i % STREAM_COLORS.length;
+            const c = mixRgb(rgb(STREAM_COLORS[k]), grey, .22);
+            streamSeed[i * 4] = k / STREAM_COLORS.length * TAU;
+            streamSeed[i * 4 + 1] = Math.random();
+            streamSeed[i * 4 + 2] = .8 + Math.random() * .4;
+            streamSeed[i * 4 + 3] = gauss();
+            streamColor[i * 3] = c[0];
+            streamColor[i * 3 + 1] = c[1];
+            streamColor[i * 3 + 2] = c[2];
+        }
+        const streamGeo = new THREE.BufferGeometry;
+        streamGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(streamCount * 3), 3));
+        streamGeo.setAttribute("aSeed", new THREE.BufferAttribute(streamSeed, 4));
+        streamGeo.setAttribute("aColor", new THREE.BufferAttribute(streamColor, 3));
+        const streams = new THREE.Points(streamGeo, additiveMaterial(STREAM_VERTEX, POINT_FRAGMENT, {
+            uBirth: uBirth,
+            uRadius: uRadius,
+            uAlpha: { value: .55 }
+        }));
+        streams.frustumCulled = false;
+        registerDensity(streams, streamCount);
+        disk.add(streams);
+        const web = buildCosmicWeb(compactScreen ? 2200 : 4000);
+        group.add(web.points);
+        const core = billboard(SINGULARITY_FRAGMENT, {
+            uIntensity: { value: .85 },
+            uHot: { value: vec3(0xfff4e4) },
+            uWarm: { value: vec3(0xf2a35e) },
+            uCool: { value: vec3(0x6fc6d8) }
+        }, 2.6);
         group.add(core);
         group.visible = false;
         let birthStart = -1;
@@ -817,34 +847,42 @@
             group: group,
             birth() {
                 birthStart = reducedMotion ? -1 : uTime.value;
-                shared.uBirth.value = reducedMotion ? 1 : 0;
+                uBirth.value = reducedMotion ? 1 : 0;
             },
-            birthLevel: () => shared.uBirth.value,
+            birthLevel: () => uBirth.value,
             update(t) {
                 if (birthStart >= 0) {
-                    const p = clamp01((t - birthStart) / 4.2);
-                    shared.uBirth.value = p;
+                    const p = clamp01((t - birthStart) / 4.6);
+                    uBirth.value = p;
                     if (p >= 1) birthStart = -1;
                 }
-                const b = shared.uBirth.value;
-                streakMat.uniforms.uBirth.value = b;
+                const b = uBirth.value;
                 const flash = Math.pow(1 - b, 2);
-                core.material.uniforms.uIntensity.value = 1 + flash * 5;
-                core.material.uniforms.uSize.value = 3.6 * (1 + (1 - b) * 1.4) * (1 + Math.sin(t * .6) * .05);
-                web.uniforms.uReveal.value = clamp01((b - .35) / .65);
-                rings.forEach(ring => {
-                    const life = (t / 7 + ring.userData.offset) % 1;
-                    const u = ring.material.uniforms;
-                    u.uRadius.value = .3 + Math.pow(life, .6) * 6.5 * Math.max(b, .05);
-                    u.uAlpha.value = Math.pow(1 - life, 1.6) * .5 * (.35 + .65 * b) + flash * .4;
-                    const c = mixRgb(ringGold, ringCrimson, life);
-                    u.uColor.value.set(c[0], c[1], c[2]);
+                layers.forEach(m => {
+                    const l = m.userData.layer;
+                    const local = clamp01((b - l.delay) / (1 - l.delay));
+                    const e = easeOutCubic(local);
+                    const u = m.material.uniforms;
+                    u.uSize.value = l.scale * (.1 + .9 * e) * (1 + Math.sin(t * .07 + l.scale) * .025);
+                    u.uRot.value = m.userData.rot + t * l.spin + (1 - e) * 1.4;
+                    u.uAlpha.value = l.alpha * Math.min(1, local * 3);
                 });
-                group.rotation.y = t * .012;
-                group.rotation.x = Math.sin(t * .04) * .08;
+                core.material.uniforms.uIntensity.value = .85 + flash * 2.6;
+                core.material.uniforms.uSize.value = 2.6 * (1 + (1 - b) * 1.2) * (1 + Math.sin(t * .5) * .04);
+                web.uniforms.uReveal.value = clamp01((b - .4) / .6);
+                disk.rotation.x = 1.08 + Math.sin(t * .05) * .04;
+                group.rotation.y = Math.sin(t * .03) * .12;
             }
         };
     }
+
+    const LINE_FRAGMENT = `
+        varying vec3 vColor;
+        varying float vAlpha;
+        void main() {
+            gl_FragColor = vec4(vColor, vAlpha);
+        }
+    `;
 
     const WARP_VERTEX = `
         attribute vec4 aSeed;
@@ -868,9 +906,9 @@
     `;
 
     const WARP_COLORS = {
-        earth: [ 0x7ccbff, 0xffc46b ],
-        galaxy: [ 0xd9a6ff, 0xff5cc8 ],
-        universe: [ 0xffbb6e, 0xff3d5e ]
+        earth: [ 0x7fd8ff, 0xf5b75c ],
+        galaxy: [ 0xc9c2ff, 0x7fb4ff ],
+        universe: [ 0xffc78f, 0x4fb8c8 ]
     };
 
     function buildWarp() {
@@ -998,7 +1036,7 @@
             targetMode: targetMode,
             direction: direction,
             warp: !!useWarp,
-            streak: useWarp ? .95 : .5,
+            streak: useWarp ? .7 : 0,
             peakZ: direction === "out" ? normalCameraZ * 3.1 : normalCameraZ * .13,
             peakFov: direction === "out" ? BASE_FOV + (useWarp ? 24 : 16) : BASE_FOV + (useWarp ? 30 : 24)
         };
@@ -1100,7 +1138,7 @@
         camera.updateProjectionMatrix();
         updateScale();
         const intensity = Math.sin(Math.PI * progress);
-        warp.visible = true;
+        warp.visible = d.streak > 0;
         warpTravel += dt * (6 + intensity * 120);
         const wu = warp.material.uniforms;
         wu.uTravel.value = warpTravel;
@@ -1156,7 +1194,7 @@
         let shake = 0;
         if (universe && universe.group.visible) {
             universe.update(elapsed);
-            shake = Math.pow(1 - universe.birthLevel(), 3) * .09;
+            shake = Math.pow(1 - universe.birthLevel(), 3) * .035;
         }
         if (!reducedMotion) {
             const follow = 1 - Math.exp(-dt * 1.1);

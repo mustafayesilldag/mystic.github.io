@@ -158,7 +158,7 @@
       <div class="hero-content reveal is-arriving">
 
         <div class="hero-sigil" aria-hidden="true">
-          <svg class="sigil-layer sigil-layer-static" viewBox="0 0 200 200">
+          <svg class="sigil-layer mystic-layer sigil-layer-static" viewBox="0 0 200 200">
             <defs>
               <linearGradient id="sigil-gradient" gradientUnits="userSpaceOnUse" x1="20" y1="20" x2="180" y2="180">
                 <stop offset="0" class="sigil-stop-a" />
@@ -175,7 +175,7 @@
             <circle cx="18" cy="100" r="1.7" class="sigil-node" />
             <circle cx="182" cy="100" r="1.7" class="sigil-node" />
           </svg>
-          <svg class="sigil-layer sigil-layer-cw" viewBox="0 0 200 200">
+          <svg class="sigil-layer mystic-layer sigil-layer-cw" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="92" class="sigil-ring sigil-ring-outer" />
             <g class="sigil-ticks">
               <path d="M100 4 L100 12" /><path d="M152 17.4 L148 24.3" /><path d="M187.6 52 L180.7 56" />
@@ -184,7 +184,7 @@
               <path d="M4 100 L12 100" /><path d="M12.4 52 L19.3 56" /><path d="M48 17.4 L52 24.3" />
             </g>
           </svg>
-          <svg class="sigil-layer sigil-layer-ccw" viewBox="0 0 200 200">
+          <svg class="sigil-layer mystic-layer sigil-layer-ccw" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="78" class="sigil-ring sigil-ring-mid" />
             <g class="sigil-runes">
               <circle cx="100" cy="22" r="1.25" />
@@ -198,10 +198,39 @@
             </g>
             <path d="M100 42 L158 100 L100 158 L42 100 Z" class="sigil-diamond" />
           </svg>
-          <svg class="sigil-layer sigil-layer-inner" viewBox="0 0 200 200">
+          <svg class="sigil-layer mystic-layer sigil-layer-inner" viewBox="0 0 200 200">
             <circle cx="100" cy="100" r="66" class="sigil-ring sigil-ring-dash" />
             <circle cx="100" cy="100" r="58" class="sigil-ring sigil-ring-inner" />
           </svg>
+          <svg class="sigil-layer hud-layer hud-static" viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="196" class="hud-line hud-faint" />
+            <circle cx="200" cy="200" r="124" class="hud-line hud-faint" />
+            <circle cx="200" cy="200" r="88" class="hud-line hud-dim" />
+            <path d="M200 2 V20 M200 380 V398 M2 200 H20 M380 200 H398" class="hud-line" />
+            <path d="M60 200 H76 M324 200 H340 M200 60 V76 M200 324 V340" class="hud-line hud-dim" />
+            <g class="hud-text">
+              <text x="200" y="38" text-anchor="middle">000</text>
+              <text x="364" y="203" text-anchor="middle">090</text>
+              <text x="200" y="370" text-anchor="middle">180</text>
+              <text x="36" y="203" text-anchor="middle">270</text>
+            </g>
+          </svg>
+          <svg class="sigil-layer hud-layer hud-ring-a" viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="182" class="hud-seg" />
+            <circle cx="200" cy="200" r="168" class="hud-arc" />
+            <path d="M200 8 L205 17 L195 17 Z" class="hud-marker" />
+            <path d="M200 392 L205 383 L195 383 Z" class="hud-marker" />
+          </svg>
+          <svg class="sigil-layer hud-layer hud-ring-b" viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="146" class="hud-ticks" />
+            <circle cx="200" cy="200" r="146" class="hud-ticks-major" />
+            <circle cx="200" cy="200" r="134" class="hud-arc-thin" />
+          </svg>
+          <svg class="sigil-layer hud-layer hud-ring-c" viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="106" class="hud-reactor" />
+            <circle cx="200" cy="200" r="98" class="hud-line hud-dim" />
+          </svg>
+          <span class="hud-sweep"></span>
         </div>
 
         <h1 class="hero-title">MYSTIC</h1>

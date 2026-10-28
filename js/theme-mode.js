@@ -2,8 +2,8 @@ const THEME_ORDER = [ "earth", "galaxy", "universe" ];
 
 const THEME_COLORS = {
     earth: "#02060f",
-    galaxy: "#07030f",
-    universe: "#0b0402"
+    galaxy: "#06050e",
+    universe: "#08060a"
 };
 
 const TRANSITION_TIMING = {
