@@ -190,7 +190,24 @@ if (forwardBtn) {
     });
 }
 
-swapThemeDom(currentTheme);
+const THEME_ALIASES = {
+    earth: "earth",
+    dunya: "earth",
+    "dünya": "earth",
+    galaxy: "galaxy",
+    galaksi: "galaxy",
+    universe: "universe",
+    evren: "universe"
+};
+
+const linkedTheme = THEME_ALIASES[(new URLSearchParams(window.location.search).get("mod") || "").toLowerCase()];
+
+if (linkedTheme && linkedTheme !== currentTheme) {
+    swapThemeDom(linkedTheme);
+    if (typeof window.mysticSetScene === "function") window.mysticSetScene(linkedTheme);
+} else {
+    swapThemeDom(currentTheme);
+}
 
 window.addEventListener("keydown", e => {
     if (e.key !== "Escape" || !isWarping) return;

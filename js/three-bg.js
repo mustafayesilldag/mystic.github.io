@@ -1062,7 +1062,6 @@
     let warpTravel = 0;
     let elapsed = 0;
     let lastNow = performance.now();
-    let throttleAcc = 0;
     let needsRender = true;
     let deepScroll = false;
     let lastWidth = window.innerWidth;
@@ -1078,7 +1077,9 @@
     }, { passive: true });
 
     window.addEventListener("scroll", () => {
+        const wasDeep = deepScroll;
         deepScroll = window.scrollY > window.innerHeight * 1.1;
+        if (wasDeep && !deepScroll) ensureLoop();
     }, { passive: true });
 
     window.addEventListener("resize", () => {
@@ -1170,22 +1171,14 @@
     function frame(now) {
         const raw = Math.min(Math.max((now - lastNow) / 1e3, 0), .1);
         lastNow = now;
-        if (!dollyState && (mode === "earth" || reducedMotion && !needsRender)) {
+        if (!dollyState && (mode === "earth" || (deepScroll || reducedMotion) && !needsRender)) {
             looping = false;
             return;
         }
         requestAnimationFrame(frame);
         if (document.hidden) return;
-        let dt = raw;
-        if (!dollyState && deepScroll && !reducedMotion) {
-            throttleAcc += raw;
-            if (throttleAcc < 1 / 31) return;
-            dt = throttleAcc;
-            throttleAcc = 0;
-        } else {
-            throttleAcc = 0;
-            govern(raw);
-        }
+        const dt = raw;
+        if (!deepScroll) govern(raw);
         if (!reducedMotion) elapsed += dt;
         uTime.value = elapsed;
         if (dollyState) stepDolly(now, dt);
